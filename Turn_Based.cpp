@@ -3,11 +3,12 @@
 #include<vector>
 using namespace std;
 
-void check_stats (string char_name, int level, int hp, int spd, int def, int bal, int stat_point) {
+void check_stats (string char_name, int level, int hp, int spd, int def, int base_attack ,int bal, int stat_point) {
     cout << "Character " << char_name <<"'s stats (Level " << level << ")" << endl;
     cout << "HP: " << hp << endl;
     cout << "Speed: " << spd << endl;
     cout << "Defense: " << def << endl;
+    cout << "Base Attack: " << base_attack << endl;
     cout << "Your current balance is: " << bal << endl;
     if (stat_point >= 1) {
         cout << "Stat points available: " << stat_point << endl;   
@@ -199,7 +200,7 @@ int main () {
         }
 
         else if (option == 2) {
-            check_stats(char_name, level, hp, spd, def, bal, stat_point);
+            check_stats(char_name, level, hp, spd, def, base_attack ,bal, stat_point);
             cout << "\nUse balance to increase stats? (1 for yes and 0 for no)\n";
             cin >> get_sp;
 
@@ -232,6 +233,14 @@ int main () {
                     hp += to_add;
                     } while (true);
                 }
+            }
+            else {
+                system("cls");
+                cout << "Choose an Option!\n";
+                cout << "1. Shop\n";
+                cout << "2. Check stats\n";
+                cout << "3. Battle\n";
+                cin >> option;
             }
         }
         
