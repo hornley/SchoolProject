@@ -88,7 +88,7 @@ int main () {
     string char_name, category, name, sub_category;
     int transac, balance_alloted, get_sp, use_sp, to_add, to_add_tot = 0, option;
     int hp, spd, def, base_attack, level, bal, stat_point, exp, exp_required, chp;
-    int enemy_hp, enemy_spd, enemy_ba, echp;
+    int enemy_hp, enemy_spd, enemy_ba, enemy_def, enemy_level, enemy_reward, exp_gain, echp;
 
     int action, attack, enhancement, heal;
     int weapon, helm, chestplate, leggings, boots, _back, item_id, cost;
@@ -97,8 +97,14 @@ int main () {
     // cout << "Character name: \n";
     // cin >> char_name;
 
+    // Testing Character Name (Nothing is affected with it)
     char_name = "oms";
 
+    // Player Stats (HP, Speed, Defense, Base Attack, Level, Balance, Stat points, Current exp, Exp needed to level up)
+    // The rest uses ITEM_ID for its value, DON'T CHANGE!
+    // Weapon (Index 9 or the 10th value/data in player)
+    // Armor (Index 10 to 13 or the 11th value/data to 14th value/data in player)
+    // Armor has Helm, Chestplate, Leggings, and Boots 
     int player[14] = {100, 36, 0, 1, 1, 1000, 0, 0, 15, 0, 0, 0, 0, 0}; // not equipped = 0, weapon, helm, chestplate, leggings, and boots
     hp = player[0];
     spd = player[1];
@@ -115,11 +121,17 @@ int main () {
     leggings =  player[12];
     boots = player[13];
 
-    int enemy[7] = {75, 35, 5, 3, 3, 300, 10};
+    // Enemy Stats (HP, Speed, Defense, Base Attack, Level, Money Reward, Experience Reward)
+    // THE ONLY ENEMY AS OF THIS MOMENT
+    // Everything will change as level changes and with money
+    int enemy[7] = {75, 35, 5, 2, 3, 300, 10};
     enemy_hp = enemy[0];
     enemy_spd = enemy[1];
+    enemy_def = enemy[2];
     enemy_ba = enemy[3];
-    exp = player[6];
+    enemy_level = enemy[4];
+    enemy_reward = enemy[5];
+    exp_gain = player[6];
 
 
     system("cls");
@@ -131,6 +143,9 @@ int main () {
     cin >> option;
     while (option != 0) {
         system("cls");
+
+        // SHOP OPTION
+
         if (option == 1) {
             map<int, pair<vector<string>, vector<int>>> items = items_dec();
             item_id = shop();
@@ -199,6 +214,8 @@ int main () {
             }
         }
 
+        // CHECK STATS OPTION
+
         else if (option == 2) {
             check_stats(char_name, level, hp, spd, def, base_attack ,bal, stat_point);
             cout << "\nUse balance to increase stats? (1 for yes and 0 for no)\n";
@@ -244,11 +261,31 @@ int main () {
             }
         }
         
+        // BATTLE OPTION
+        // Fix and or improve
+        // To fix: (eto palang alam ko as of this moment)
+        // 1. "Your hp" or chp is not properly updated in enemy's damage
+
+        // GO NIYO LANG IF MAY MAS MAGANDA KAYONG WAYS
+        // HAVE FUN GUYS!
+        // PAG MAY QUESTION CHAT LANG SA GC
+
+        // To improve:
+        // After winning get money reward but add "taxes" HAHAHAHHAHAA
+        // And add enemy_exp to exp_required and
+        // if enemy_exp >= exp_required add 1 level and add 5 stat points
+
+        // If player lost the fight or FORFEIT
+        // They lose 90% their current balance
+
+        // Defense implementation
+        // Reduces damage (kayo bahala anong ratio, babaan niyo lang syempre baka di naman madamage dahil mataas)
+
+        // Add Choose Enemy 
+        // (Pwede muna wag gawin to unless gawa kayo enemies then implement ko yung paglagay ng enemies para madali)
+        // (kahit di muna kasi diko pa nalalagyan ng ibang enemies, isip kayo stats ng enemies kung kaya niyo)
+
         else if (option == 3) {
-            cout << spd << endl;
-            cout << def << endl;
-            cout << base_attack << endl;
-            cin >> _back;
             // player first turn
             if (spd > enemy_spd) {
                 player_turn = true;
@@ -261,24 +298,25 @@ int main () {
                 enemy_turn = true;
             }
 
-            chp = hp; // player hp to use for battling
-            echp = enemy_hp; // enemy max hp
+            chp = hp; // Player HP to use for Battling
+            echp = enemy_hp; // Enemy max HP
             while (true) {
                 if (get_sp == 0) {
                     cin.clear();
                     cin.ignore();
                 }
 
-                // Damaging
+                // Battle Action
                 if (player_turn) {
                     system("cls");
                     cout << "Choose an action!\n";
                     cout << "1. Attack\n";
                     cout << "2. Heal\n";
-                    cout << "3. Use an Item\n";
-                    cout << "4. Forfeit\n";
+                    cout << "3. Use an Item\n";  // Wala pa to, skip muna
+                    cout << "4. Forfeit\n";  // Kung kaya niyo to gawin, GO!
                     cin >> action;
 
+                    // Attack Option
                     if (action == 1) {
                         system("cls");
                         cout << "Choose an attack!\n";
@@ -294,7 +332,7 @@ int main () {
                                 cout << "You don't have enough balance for that!\n";
                             }
                             else {
-                                damage = base_attack * 0.10 * enhancement;
+                                damage = base_attack * 0.30 * enhancement;
                                 success = true;
                             }
                         }
@@ -316,6 +354,8 @@ int main () {
                         }
                     }
 
+
+                    // Heal Option
                     else if (action == 2) {
                         if (chp > hp * 0.8) { // chp = curent hp ; hp = hp 
                             cout << "You're HP is still above 80%, are you sure?\n";
@@ -323,23 +363,37 @@ int main () {
                             cin >> heal;
                             if (heal == 1) {
                                 cout << "Heal options (current level " << level << ")\n";
-                                cout << "Cost\tHP Recovery\tRequired Level\n";
-                                cout << "100\t    15\t\t      1\n";
-                                cout << "200\t    40\t\t      5\n";
-                                cout << "400\t    100\t\t      10\n";
-                                cout << "700\t    250\t\t      15\n";
-                                cout << "1000\t    500\t\t      20\n";
+                                cout << " \tCost\tHP Recovery\tRequired Level\n";
+                                cout << "1. \t100\t    15\t\t      1\n";
+                                cout << "2. \t200\t    40\t\t      5\n";
+                                cout << "3. \t400\t    100\t\t      10\n";
+                                cout << "4. \t700\t    250\t\t      15\n";
+                                cout << "5. \t1000\t    500\t\t      20\n";
+                                // cin dito ng chosen option
+                                // First is, check kung yung player level is atleast sa "Required Level" ng chosen heal
+                                // Second is, check kung may sufficient balance para sa heal
+                                // Third is, add the "Hp recovery to chp"
+                                // Fourth is, 3/3 lang dapat yung heal per fight so every heal, mababawasan, pag 0 na edi no more heals ang ferson
                             }
                         }
                     }
+
+                    // Forfeit Option
+                    else if (action == 4) {
+
+                    }
+
+
+
+                // If attack option is successful, enemy's turn na to
                 if (success) {
                     enemy_turn = true;
                     player_turn = false;
                     }
-                cout << "Press enter to continue!\n";
                 cin.ignore();
                 }
 
+                // Enemy Attack na to
                 else {
                     damage = (rand() % enemy_ba + 1) * 12.5;
                     cout << "Enemy dealt " << damage << endl;
@@ -347,13 +401,16 @@ int main () {
                     enemy_turn = false;
                     chp -= damage;
                     cout << "Your HP: " << damage << endl;
-                    cout << "Press enter to continue!\n";
                     if (chp <= 0) {
                         cout << "YOU LOST THE FIGHT!\n";
+                        cin.clear();
+                        cin.ignore();
                         break;
                     }
+                    cout << "Press enter to continue!\n";
+                    cin.clear();
+                    cin.ignore();
                 }
-
             }
         }
         
