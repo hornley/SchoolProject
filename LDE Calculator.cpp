@@ -131,8 +131,7 @@ int main()
     xT = _n / gcd;
     yT = _m / gcd;
   }
-  cout << xT << '\t' << yT;
-  cout << "\nGeneral Solution:\n";
+  cout << "\n\nGeneral Solution:\n";
 
   // Proof
 
