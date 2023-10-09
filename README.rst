@@ -1,5 +1,5 @@
 **********************
-Turn based and transaction based game by hornley
+Personal For Fun Thingz by hornley
 **********************
 
 > To be added:
