@@ -5,6 +5,10 @@ int main()
 {
   system("cls");
   cout << "LDE Calculator by hornley (Harley Albert C. Buendia)\n";
+  cout << "LDE Calculator by hornley (Harley Albert C. Buendia)\n";
+  cout << "LDE Calculator by hornley (Harley Albert C. Buendia)\n";
+  cout << "LDE Calculator by hornley (Harley Albert C. Buendia)\n";
+  cout << "LDE Calculator by hornley (Harley Albert C. Buendia)\n";
   bool ic=false, div=false;
   int m, n, temp, q, r, new_n, mult, c;
   int gcd, lcm, _m, _n, size, a, b;
