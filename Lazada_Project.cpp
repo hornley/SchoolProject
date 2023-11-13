@@ -73,6 +73,11 @@ int main() {
                     }
                     cout << "0. Cancel\n";
                     cin >> sub_category;
+                    
+                    system("clear");
+                    cout << "Category:\t" << product << endl;
+                    cout << "Product:\t" << oms[sub_category - 1] << endl;
+                    cout << "Price:\t\t" << omsim[sub_category - 1] << endl;
 
                     cout << "How many? (type '0' to cancel)\n";
                     cin >> amount;
@@ -236,12 +241,15 @@ int main() {
         system("clear");
         map<string, pair<int, int>>::iterator iter;
         cout << "Item\t\tAmount\t\tPrice\t\tTotal\n";
-        for (iter = cart.begin(); iter != cart.end(); iter++) {
-            if (iter->first == "Notebook" || iter->first == "Yellow Pad") {
+        for (iter = cart.begin(); iter != cart.end(); iter++) 
+        {
+            if (iter->first == "Notebook" || iter->first == "Yellow Pad")
+            {
                 totprice = iter->second.first * iter->second.second;
                 cout << iter->first << "\t" << iter->second.first << "\t\t" << iter->second.second << "\t\t" << totprice << endl;
             }
-            else {
+            else 
+            {
                 totprice = iter->second.first * iter->second.second;
                 cout << iter->first << "\t\t" << iter->second.first << "\t\t" << iter->second.second << "\t\t" << totprice << endl;
             }
@@ -249,14 +257,13 @@ int main() {
         cout << "Proceed to checkout? (type 'yes', otherwise 'no'.)\n";
         cin >> checkout_option;
 
-        if (checkout_option == "yes") {
+        if (checkout_option == "yes")
+        {
             cout << "Checkout\n";
             cout << "What is your payment method?\n";
             cout << "1. Cash\n";
             cout << "2. Card\n";
             cin >> paymentMethod;
-
-
         }
         // Proceed to Checkout ---> Payment 
         // Payment ---> Payment confirmation
