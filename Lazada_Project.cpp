@@ -1,7 +1,9 @@
 #include<iostream>
+#include<string>
 #include <map>
 
 using namespace std;
+map<string, vector<pair<string, int>>> products;
 
 void mapping (string product, int &amount, int price) {
     string add_to_cart;
@@ -14,15 +16,31 @@ void mapping (string product, int &amount, int price) {
     }
 }
 
+void addProducts()
+{
+    products["Pen"].push_back(make_pair("Gel Pen", 15));
+    products["Pen"].push_back(make_pair("HBW-2000", 15));
+    products["Pen"].push_back(make_pair("Parker", 15));
+    products["Pen"].push_back(make_pair("Panda", 15));
+    products["Pencil"].push_back(make_pair("Mongol", 15));
+    products["Paper"].push_back(make_pair("Yellow Pad", 15));
+    products["Paper"].push_back(make_pair("Whole", 15));
+}
+
 int main() {
-    string decision, add_to_cart, view_cart, product, checkout_option;
-    int chosen_category, sub_category, amount, _x;
+    string decision, add_to_cart, view_cart, product, checkout_option, productChosen;
+    int chosen_category, sub_category, amount, _xa;
 
     int pen, pencil, yellow_pad, notebook, book;
     int shirt, shorts, pants, polo, hat, hoodie;
     float price, totprice;
 
+    int paymentMethod;
+    addProducts();
+
     map<string, pair<int, int>> cart;
+    vector<string> oms;
+    vector<int> omsim;
 
     cout << "Welcome to Lazada!\n";
 
@@ -30,105 +48,46 @@ int main() {
     cin >> decision;
     do {
         if (decision == "yes" || decision == "Yes") {
-            system("cls");
+            system("clear");
             cout << "Choose category\n";
-            cout << "1. School suppplies\n";
-            cout << "2. Clothes\n";
-            cout << "3. Cosmetics\n";
-            cout << "4. Gadgets and accessories\n";
-            cout << "5. Jewelry\n";
+            cout << "1. Pen\n";
+            cout << "2. Pencil\n";
+            cout << "3. Paper\n";
+            cout << "4. Notebook\n";
+            cout << "5. Book\n";
             cout << "0. Cancel\n";
             cin >> chosen_category;
 
-            system("cls");
+            system("clear");
             switch (chosen_category) {
                 case 1:
-                    cout << "Choose a school supplies product:\n";
-                    cout << "1. Pen\n";
-                    cout << "2. Pencil\n";
-                    cout << "3. Yellow Pad\n";
-                    cout << "4. Notebook\n";
-                    cout << "5. Book\n";
+                    product = "Pen";
+                    _xa = 1;
+                    cout << "Choose a pen product:\n";
+                    for (auto iter = products["Pen"].begin(); iter != products["Pen"].end(); iter++)
+                    {
+                        cout << _xa << ". " << iter->first << endl;
+                        oms.push_back(iter->first);
+                        omsim.push_back(iter->second);
+                        _xa++;
+                    }
                     cout << "0. Cancel\n";
                     cin >> sub_category;
 
-                    switch (sub_category) {
-                        case 1:
-                            cout << "How many? (type '0' to cancel)\n";
-                            cin >> amount;
-                            if (amount >= 1) {
-                                system("cls");
-                                price = 15;
-                                product = "Pen";
-                                mapping(product, amount, price);
-                                if (amount < 1) {
-                                    break;
-                                }
-                                cart[product] = {amount, price};
-                            }
+                    cout << "How many? (type '0' to cancel)\n";
+                    cin >> amount;
+                    if (amount >= 1) {
+                        system("clear");
+                        price = omsim[sub_category - 1];
+                        mapping(product, amount, price);
+                        if (amount < 1) {
                             break;
-                        case 2:
-                            cout << "How many? (type '0' to cancel)\n";
-                            cin >> amount;
-                            if (amount >= 1) {
-                                system("cls");
-                                price = 10;
-                                product = "Pencil";
-                                mapping(product, amount, price);
-                                if (amount < 1) {
-                                    break;
-                                }
-                                cart[product] = {amount, price};
-                            }
-                            break;
-                        case 3:
-                            cout << "How many? (type '0' to cancel)\n";
-                            cin >> amount;
-                            if (amount >= 1) {
-                                system("cls");
-                                price = 45;
-                                product = "YellowPad";
-                                mapping(product, amount, price);
-                                if (amount < 1) {
-                                    break;
-                                }
-                                cart[product] = {amount, price};
-                            }
-                            break;
-                        case 4:
-                            cout << "How many? (type '0' to cancel)\n";
-                            cin >> amount;
-                            if (amount >= 1) {
-                                system("cls");
-                                price = 70;
-                                product = "Notebook";
-                                mapping(product, amount, price);
-                                if (amount < 1) {
-                                    break;
-                                }
-                                cart[product] = {amount, price};
-                            }
-                            break;
-                        case 5:
-                            cout << "How many? (type '0' to cancel)\n";
-                            cin >> amount;
-                            if (amount >= 1) {
-                                system("cls");
-                                price = 350;
-                                product = "Book";
-                                mapping(product, amount, price);
-                                if (amount < 1) {
-                                    break;
-                                }
-                                cart[product] = {amount, price};
-                            }
-                            break;
-                        default:
-                            break;
+                        }
+                        cart[oms[sub_category - 1]] = {amount, price};
                     }
                 break;
                 case 2:
-                    cout << "Choose a clothing product:\n";
+                    cout << "Choose a pencil product:\n";
                     cout << "1. Shirt\n";
                     cout << "2. Short\n";
                     cout << "3. Pants\n";
@@ -143,7 +102,7 @@ int main() {
                             cout << "How many? (type '0' to cancel)\n";
                             cin >> amount;
                             if (amount >= 1) {
-                                system("cls");
+                                system("clear");
                                 price = 15;
                                 product = "Shirt";
                                 mapping(product, amount, price);
@@ -157,7 +116,7 @@ int main() {
                             cout << "How many? (type '0' to cancel)\n";
                             cin >> amount;
                             if (amount >= 1) {
-                                system("cls");
+                                system("clear");
                                 price = 15;
                                 product = "Shorts";
                                 mapping(product, amount, price);
@@ -171,7 +130,7 @@ int main() {
                             cout << "How many? (type '0' to cancel)\n";
                             cin >> amount;
                             if (amount >= 1) {
-                                system("cls");
+                                system("clear");
                                 price = 15;
                                 product = "Pants";
                                 mapping(product, amount, price);
@@ -185,7 +144,7 @@ int main() {
                             cout << "How many? (type '0' to cancel)\n";
                             cin >> amount;
                             if (amount >= 1) {
-                                system("cls");
+                                system("clear");
                                 price = 15;
                                 product = "Polo";
                                 mapping(product, amount, price);
@@ -199,7 +158,7 @@ int main() {
                             cout << "How many? (type '0' to cancel)\n";
                             cin >> amount;
                             if (amount >= 1) {
-                                system("cls");
+                                system("clear");
                                 price = 15;
                                 product = "Hat";
                                 mapping(product, amount, price);
@@ -213,7 +172,7 @@ int main() {
                             cout << "How many? (type '0' to cancel)\n";
                             cin >> amount;
                             if (amount >= 1) {
-                                system("cls");
+                                system("clear");
                                 price = 15;
                                 product = "Hoodie";
                                 mapping(product, amount, price);
@@ -228,31 +187,53 @@ int main() {
                     }
                 break;
                 case 3:
-                    cout << "Choose a cosmetics product:\n";
-                    cout << "1. ";
+                    product = "Paper";
+                    _xa = 1;
+                    cout << "Choose a paper product:\n";
+                    for (auto iter = products[product].begin(); iter != products[product].end(); iter++)
+                    {
+                        cout << _xa << ". " << iter->first << endl;
+                        oms.push_back(iter->first);
+                        omsim.push_back(iter->second);
+                        _xa++;
+                    }
+                    cout << "0. Cancel\n";
+                    cin >> sub_category;
+
+                    cout << "How many? (type '0' to cancel)\n";
+                    cin >> amount;
+                    if (amount >= 1) {
+                        system("clear");
+                        price = omsim[sub_category - 1];
+                        mapping(product, amount, price);
+                        if (amount < 1) {
+                            break;
+                        }
+                        cart[oms[sub_category - 1]] = {amount, price};
+                    }
                 break;
                 case 4:
-                    cout << "Gadgets and accessories\n";
+                    cout << "Choose a notebook\n";
                 break;
                 case 5:
-                    cout << "Jewelry\n";
+                    cout << "Choose a Book\n";
                     break;
                 default:
                     break;
             }
             cin.clear();
-            system("cls");
+            system("clear");
             cout << "If you wish buy more, type 'yes', otherwise 'no'.\n";
             cin >> decision;
         }
     } while (decision == "yes");
     
-    system("cls");
+    system("clear");
     cout << "View Cart? type 'yes', otherwise 'no'.\n";  // option 1
     cin >> view_cart;
 
     if (view_cart == "yes") {
-        system("cls");
+        system("clear");
         map<string, pair<int, int>>::iterator iter;
         cout << "Item\t\tAmount\t\tPrice\t\tTotal\n";
         for (iter = cart.begin(); iter != cart.end(); iter++) {
@@ -269,7 +250,13 @@ int main() {
         cin >> checkout_option;
 
         if (checkout_option == "yes") {
-            
+            cout << "Checkout\n";
+            cout << "What is your payment method?\n";
+            cout << "1. Cash\n";
+            cout << "2. Card\n";
+            cin >> paymentMethod;
+
+
         }
         // Proceed to Checkout ---> Payment 
         // Payment ---> Payment confirmation
