@@ -18,13 +18,22 @@ void mapping (string product, int &amount, int price) {
 
 void addProducts()
 {
-    products["Pen"].push_back(make_pair("Gel Pen", 15));
+    products["Pen"].push_back(make_pair("Gel Pen", 21));
     products["Pen"].push_back(make_pair("HBW-2000", 15));
-    products["Pen"].push_back(make_pair("Parker", 15));
-    products["Pen"].push_back(make_pair("Panda", 15));
-    products["Pencil"].push_back(make_pair("Mongol", 15));
-    products["Paper"].push_back(make_pair("Yellow Pad", 15));
-    products["Paper"].push_back(make_pair("Whole", 15));
+    products["Pen"].push_back(make_pair("Parker", 17));
+    products["Pen"].push_back(make_pair("Panda", 13));
+    products["Pencil"].push_back(make_pair("Mongol", 7));
+    products["Pencil"].push_back(make_pair("Faber-Castell", 28));    
+    products["Paper"].push_back(make_pair("Yellow Pad", 25));
+    products["Paper"].push_back(make_pair("Whole", 35));
+    products["Paper"].push_back(make_pair("1/2 Yellow Pad", 20));
+    products["Paper"].push_back(make_pair("Index Card", 10));
+    products["Notebook"].push_back(make_pair("Spiral Notebook", 45));
+    products["Notebook"].push_back(make_pair("Leather Notebook", 60));
+    products["Notebook"].push_back(make_pair("Math Notebook", 30));
+    products["Notebook"].push_back(make_pair("Music Notebook", 32));
+    products["Notebook"].push_back(make_pair("Art Notebook", 27));
+    
 }
 
 int main() {
@@ -39,8 +48,6 @@ int main() {
     addProducts();
 
     map<string, pair<int, int>> cart;
-    vector<string> oms;
-    vector<int> omsim;
 
     cout << "Welcome to Lazada!\n";
 
@@ -48,6 +55,8 @@ int main() {
     cin >> decision;
     do {
         if (decision == "yes" || decision == "Yes") {
+            vector<string> oms;
+            vector<int> omsim;
             system("clear");
             cout << "Choose category\n";
             cout << "1. Pen\n";
@@ -191,6 +200,9 @@ int main() {
                             break;
                     }
                 break;
+                
+                //Josiah Case 3 update
+
                 case 3:
                     product = "Paper";
                     _xa = 1;
@@ -205,6 +217,11 @@ int main() {
                     cout << "0. Cancel\n";
                     cin >> sub_category;
 
+                    system("clear");
+                    cout << "Category:\t" << product << endl;
+                    cout << "Product:\t" << oms[sub_category - 1] << endl;
+                    cout << "Price:\t\t" << omsim[sub_category - 1] << endl;
+
                     cout << "How many? (type '0' to cancel)\n";
                     cin >> amount;
                     if (amount >= 1) {
@@ -217,9 +234,39 @@ int main() {
                         cart[oms[sub_category - 1]] = {amount, price};
                     }
                 break;
+
+                // Josiah - Case 4
                 case 4:
-                    cout << "Choose a notebook\n";
-                break;
+                    cout << "Choose a Notebook product:\n";
+                    product = "Notebook";
+                    _xa = 1;
+                    for (auto iter = products[product].begin(); iter != products[product].end(); iter++)
+                    {
+                        cout << _xa << ". " << iter->first << endl;
+                        oms.push_back(iter->first);
+                        omsim.push_back(iter->second);
+                        _xa++;
+                    }
+                    cout << "0. Cancel\n";
+                    cin >> sub_category;
+                    
+                    system("clear");
+                    cout << "Category:\t" << product << endl;
+                    cout << "Product:\t" << oms[sub_category - 1] << endl;
+                    cout << "Price:\t\t" << omsim[sub_category - 1] << endl;
+
+                    cout << "How many? (type '0' to cancel)\n";
+                    cin >> amount;
+                    if (amount >= 1) {
+                        system("clear");
+                        price = omsim[sub_category - 1];
+                        mapping(product, amount, price);
+                        if (amount < 1) {
+                            break;
+                        }
+                        cart[oms[sub_category - 1]] = {amount, price};
+                    }
+                break; // No break;
                 case 5:
                     cout << "Choose a Book\n";
                     break;
