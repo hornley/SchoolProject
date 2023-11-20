@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include <map>
+#include <vector>
 
 using namespace std;
 map<string, vector<pair<string, int>>> products;
