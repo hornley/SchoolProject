@@ -353,6 +353,7 @@ int main() {
                 cout << "Please select one";
                 cout << "\n1. Cash card";
                 cout << "\n2. Savings\n";
+                cin.clear();
                 cin >> ngi;
                 
                 if (ngi== "Cash card" || "cash card")
