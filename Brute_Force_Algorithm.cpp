@@ -30,11 +30,11 @@ int main() {
    
     int graph[][V] = { 
                        { 0,  10, 15, 20, 15, 60 },
-                       { 10, 0,  35, 25, 50, 45 },
+                       { 10, 0,  35, 25, 15, 45 },
                        { 15, 35, 0,  30, 40, 30 },
                        { 20, 25, 30, 0,  35, 35 },
                        { 15, 25, 50, 60, 0,  50 },
-                       { 20, 25, 30, 50, 25, 0  }
+                       { 20, 25, 30, 30, 25, 0  }
                      };  
 
     // This int variable of starting_point represents which city we start at.
@@ -109,8 +109,8 @@ void BruteForceAlgorithm(int graph[][V], int s) {
         current_cost += graph[i][s];
         all_Cost.push_back(current_cost);
         temp_travel_Cost.push_back(graph[i][s]);
-        temp_from_to_City.push_back(i);
-        temp_from_to_City.push_back(s);
+        temp_from_to_City.push_back(i + 1);
+        temp_from_to_City.push_back(s + 1);
         if (current_cost < lowest_cost)
         {
             lowest_cost = current_cost;
