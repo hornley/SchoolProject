@@ -63,7 +63,7 @@ int main() {
             cin >> paymentMethod;
             if (paymentMethod == 1) {
                 system("cls");
-                total_price *= 0.075 * total_price;
+                total_price += 0.075 * total_price;
                 cout << "Total Amount to pay: " << total_price << endl;
                 cout << "Do you want to apply a discount code? (type 'yes', otherwise 'no'.)\n";
                 cin >> discount_option;
