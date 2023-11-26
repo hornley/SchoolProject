@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <string.h>
 #include <map>
 #include <vector>
 #include <stdlib.h>
@@ -11,19 +12,22 @@
 using namespace std;
 
 int total_amount;
+string paymentyarn, Codes[3];
+float VAT_amount, discounted_amount, subtotal;
 
 map<string, vector<pair<string, int>>> products;
 map<string, pair<int, int>> cart;
-map<string, int> discounts;
+map<string, float> discounts;
 
 void TIP();
 void mapping(string product, int &amount, int price);
 void addData();
 float viewCart();
 void shop();
-float compute(float balance, float total_price);
 void receipt(float balance, float total_price, float change);
-float discount(float total_price);
+float discount(float &total_price);
+void cardInfo();
+int categoryShop(string product);
 
 int main() {
     string decision, view_cart, checkout_option, discount_option;
@@ -63,13 +67,17 @@ int main() {
             cin >> paymentMethod;
             if (paymentMethod == 1) {
                 system("cls");
-                total_price += 0.075 * total_price;
+                VAT_amount = 0.075 * total_price;
+                subtotal = total_price;
+                total_price += VAT_amount;
                 cout << "Total Amount to pay: " << total_price << endl;
                 cout << "Do you want to apply a discount code? (type 'yes', otherwise 'no'.)\n";
                 cin >> discount_option;
                 if (discount_option == "yes")
                 {
-                    total_price = discount(total_price);
+                    discount(total_price);
+                    system("cls");
+                    cout << "Total Amount to pay: " << total_price << endl;
                 }
                 cout << "Please input your money \n";
                 cin.clear();
@@ -77,58 +85,44 @@ int main() {
                 if (balance < total_price) {
                     cout << "\nInsufficient Money!\nUnable to proceed\n";
                 } else {
-                    change = compute(balance, total_price);
+                    change = balance - total_price;
+                    paymentyarn = "Cash";
+                    receipt(balance, total_price, change);
                 }
-                receipt(balance, total_price, change);
             }
-            else if (paymentMethod == 2)
-            {
+            else if (paymentMethod == 2) {
                 system("cls");
                 
-                cout << "Please enter your Bank card (just type random numbers)\n";
-                cin >> cardNumber;
+                cardInfo();
+
                 cout << "Please select one\n";
                 cout << "1. Cash card\n";
                 cout << "2. Savings\n";
                 cout << "0. Cancel\n";
-                cin.clear();
                 cin >> cardMethod;
                 
-                if (cardMethod == 1)
+                system("cls");
+                VAT_amount = 0.075 * total_price;
+                subtotal = total_price;
+                total_price += VAT_amount;
+                cout << "Total Amount to pay: " << total_price << endl;
+                cout << "Do you want to apply a discount code? (type 'yes', otherwise 'no'.)\n";
+                cin >> discount_option;
+                if (discount_option == "yes")
                 {
-                cout << "\nPlease enter your money\n";
+                    discount(total_price);
+                    system("cls");
+                    cout << "Total Amount to pay: " << total_price << endl;
+                }
+                cout << "Please input your money\n";
+                cin.clear();
                 cin >> balance;
-                if(balance < total_price)
-                {
+                if (balance < total_price) {
                     cout << "\nInsufficient Money!\nUnable to proceed\n";
-                }
-                else
-                {
-                    cout << "Computing";
-                    cout.flush();
-                    sleep(1);
-                    cout << ".";
-                    cout.flush();
-                    sleep(1);
-                    cout << ".";
-                    cout.flush();
-                    sleep(1);
-                    cout << ".";
-                    cout.flush();
-                    sleep(1);
-                    cout << "\nplease wait";
-                    cout.flush();
-                    sleep(1);
-                    cout << ".";
-                    cout.flush();
-                    sleep(1);
-                    cout << ".";
-                    cout.flush();
-                    sleep(1);
-                    cout << ".";
-                    cout.flush();
-                    sleep(1);
-                }
+                } else {
+                    change = balance - total_price;
+                    paymentyarn = "Card";
+                    receipt(balance, total_price, change);
                 }
             }
             else
@@ -235,182 +229,24 @@ void shop()
         switch (chosen_category) {
             case 1:
                 product = "Pen";
-                _xa = 1;
-                TIP();
-                cout << "Choose a pen product:\n";
-                for (auto iter = products["Pen"].begin(); iter != products["Pen"].end(); iter++)
-                {
-                    cout << _xa << ". " << iter->first << endl;
-                    oms.push_back(iter->first);
-                    omsim.push_back(iter->second);
-                    _xa++;
-                }
-                cout << "0. Cancel\n";
-                cin >> sub_category;
-                
-                system("cls");
-                TIP();
-                cout << "Category:\t" << product << endl;
-                cout << "Product:\t" << oms[sub_category - 1] << endl;
-                cout << "Price:\t\t" << omsim[sub_category - 1] << endl;
-
-                cout << "\nHow many? (type '0' to cancel)\n";
-                cin >> amount;
-                if (amount >= 1) {
-                    system("cls");
-                    price = omsim[sub_category - 1];
-                    mapping(product, amount, price);
-                    if (amount < 1) {
-                        break;
-                    }
-                    cart[oms[sub_category - 1]] = {amount, price};
-                }
-            break;
-            
-                case 2:
+                break;
+            case 2:
                 product = "Pencil";
-                _xa = 1;
-                TIP();
-                cout << "Choose a pencil product:\n";
-                for (auto iter = products[product].begin(); iter != products[product].end(); iter++)
-                {
-                    cout << _xa << ". " << iter->first << endl;
-                    oms.push_back(iter->first);
-                    omsim.push_back(iter->second);
-                    _xa++;
-                }
-                cout << "0. Cancel\n";
-                cin >> sub_category;
-
-                system("cls");
-                TIP();
-                cout << "Category:\t" << product << endl;
-                cout << "Product:\t" << oms[sub_category - 1] << endl;
-                cout << "Price:\t\t" << omsim[sub_category - 1] << endl;
-
-                cout << "\nHow many? (type '0' to cancel)\n";
-                cin >> amount;
-                if (amount >= 1) {
-                    system("cls");
-                    price = omsim[sub_category - 1];
-                    mapping(product, amount, price);
-                    if (amount < 1) {
-                        break;
-                    }
-                    cart[oms[sub_category - 1]] = {amount, price};
-                }
-            break;
-
-            
-            //Josiah Case 3 update
-
+                break;
             case 3:
                 product = "Paper";
-                _xa = 1;
-                TIP();
-                cout << "Choose a paper product:\n";
-                for (auto iter = products[product].begin(); iter != products[product].end(); iter++)
-                {
-                    cout << _xa << ". " << iter->first << endl;
-                    oms.push_back(iter->first);
-                    omsim.push_back(iter->second);
-                    _xa++;
-                }
-                cout << "0. Cancel\n";
-                cin >> sub_category;
-
-                system("cls");
-                TIP();
-                cout << "Category:\t" << product << endl;
-                cout << "Product:\t" << oms[sub_category - 1] << endl;
-                cout << "Price:\t\t" << omsim[sub_category - 1] << endl;
-
-                cout << "\nHow many? (type '0' to cancel)\n";
-                cin >> amount;
-                if (amount >= 1) {
-                    system("cls");
-                    price = omsim[sub_category - 1];
-                    mapping(product, amount, price);
-                    if (amount < 1) {
-                        break;
-                    }
-                    cart[oms[sub_category - 1]] = {amount, price};
-                }
-            break;
-
-            // Josiah - Case 4
+                break;
             case 4:
-                TIP();
-                cout << "Choose a Notebook product:\n";
                 product = "Notebook";
-                _xa = 1;
-                for (auto iter = products[product].begin(); iter != products[product].end(); iter++)
-                {
-                    cout << _xa << ". " << iter->first << endl;
-                    oms.push_back(iter->first);
-                    omsim.push_back(iter->second);
-                    _xa++;
-                }
-                cout << "0. Cancel\n";
-                cin >> sub_category;
-                
-                system("cls");
-                TIP();
-                cout << "Category:\t" << product << endl;
-                cout << "Product:\t" << oms[sub_category - 1] << endl;
-                cout << "Price:\t\t" << omsim[sub_category - 1] << endl;
-
-                cout << "\nHow many? (type '0' to cancel)\n";
-                cin >> amount;
-                if (amount >= 1) {
-                    system("cls");
-                    price = omsim[sub_category - 1];
-                    mapping(product, amount, price);
-                    if (amount < 1) {
-                        break;
-                    }
-                    cart[oms[sub_category - 1]] = {amount, price};
-                }
-            break; // No break;
-            
-            // Arjie - Case 5
-
+                break;
             case 5:
-                TIP();
-                cout << "Choose a Book\n";
                 product = "Book";
-                _xa = 1;
-                cout << "Choose a Book product:\n";
-                for (auto iter = products["Book"].begin(); iter != products["Book"].end(); iter++)
-                {
-                    cout << _xa << ". " << iter->first << endl;
-                    oms.push_back(iter->first);
-                    omsim.push_back(iter->second);
-                    _xa++;
-                }
-                cout << "0. Cancel\n";
-                cin >> sub_category;
-                
-                system("cls");
-                TIP();
-                cout << "Category:\t" << product << endl;
-                cout << "Product:\t" << oms[sub_category - 1] << endl;
-                cout << "Price:\t\t" << omsim[sub_category - 1] << endl;
-
-                cout << "\nHow many? (type '0' to cancel)\n";
-                cin >> amount;
-                if (amount >= 1) {
-                    system("cls");
-                    price = omsim[sub_category - 1];
-                    mapping(product, amount, price);
-                    if (amount < 1) {
-                        break;
-                    }
-                    cart[oms[sub_category - 1]] = {amount, price};
-                }
                 break;
             default:
                 break;
+        }
+        if (chosen_category >= 1 && chosen_category <= 5) {
+            categoryShop(product);
         }
         cin.clear();
         system("cls");
@@ -420,55 +256,43 @@ void shop()
     } while (decision == "yes");
 }
 
-float compute(float balance, float total_price)
-{
-    float change;
-    system("cls");
-    // cout << "Balance: " << balance << endl;
-    // cout << "Total amount to pay: " << total_price << endl;
-
-    cout << "Processing payment";
-    cout.flush();
-    sleep(1);
-    cout << ".";
-    cout.flush();
-    sleep(1);
-    cout << ".";
-    cout.flush();
-    sleep(1);
-    cout << ".";
-    cout.flush();
-    sleep(1);
-    change = balance - total_price ;
-    cout << "\n\nYour change is: " << change << endl;
-
-    return change;
-}
-
 void receipt(float balance, float total_price, float change)
 {
-    cout << "\nPlease wait for your receipt\n";
-    cout << "\n****************************************************************************************\n";
-    cout << "\n                         Thank you for shopping with us !                               \n";
-    cout << "\n****************************************************************************************";
-    
+    string hi;
+    for (string i: Codes)
+    {
+        hi += i;
+        hi += " ";
+    }
+    cout << "Please wait for your receipt\n";
+    system("cls");
     cout << "StudEssentials\n";
     time_t now = time(0);
     char* dt = ctime(&now);
     cout << "TIP Quezon City\n";
     cout << "Store Contact Number: +639123456789\n";
     cout << "Date and Time of purchase: " << dt << endl;
-    viewCart();
-    cout << "VAT: " << endl;
-
+    cout << "Subtotal:     " << subtotal              << endl;
+    cout << "VAT:          " << VAT_amount            << endl;
+    cout << "New Subtotal: " << subtotal + VAT_amount << endl;
+    cout << "Discount:     " << discounted_amount     << endl;
+    cout << "Codes:        " << hi                    << "\n\n";
+    cout << "Balance:      " << balance               << endl;
+    cout << "Total:        " << total_price           << endl;
+    cout << "Change:       " << change                << endl;
+    cout << "Paid with:    " << paymentyarn           << endl;
 }
 
-float discount(float total_price)
+float discount(float &total_price)
 {
-    string code;
+    string code, add;
     int code_amount = 1;
     int temp;
+    float discount_ammount, percentage;
+    bool applied;
     do {
+        add = "";
+        applied = false;
         temp = code_amount;
         system("cls");
         cout << "Enter your discount/voucher code\n";
@@ -476,20 +300,88 @@ float discount(float total_price)
         cout << "Type 'done' to finish adding discount/voucher code\n";
         cin >> code;
         if (code == "done") { break; }
-        map<string, int>::iterator iter;
+        map<string, float>::iterator iter;
         for (iter = discounts.begin(); iter != discounts.end(); iter++) {
             if (code == iter->first) {
-                total_price *= (iter->second/100);
-                code_amount++;
-                cout << "Successfully used " << code << " giving you a " << iter->second << "\% discount\n";
-                cout.flush();
-                sleep(1);
+                for (string i: Codes) {
+                    if (i == code) {
+                        cout << "That code is already applied!\n";
+                        sleep(2);
+                        add = "yes";
+                        applied = true;
+                    } else {
+                        percentage = 1 - (iter->second/100);
+                        discount_ammount = total_price * (iter->second/100);
+                        total_price *= percentage;
+                        discounted_amount += discount_ammount;
+                        Codes[code_amount - 1] = code;
+                        code_amount++;
+                        cout << "Successfully used " << code << " giving you a " << iter->second << "\% discount\n";
+                        cout << "Type 'yes' if you want to another code\n";
+                        cin.clear();
+                        cin >> add;
+                    }
+                    break;
+                }
             }
         }
-        if (temp == code_amount) {
+        if (temp == code_amount && !applied) {
             cout << "Invalid Code!\n";
+            sleep(2);
+            add = "yes";
         }
-    } while (code_amount <= 3);
+    } while (code_amount <= 3 && add == "yes");
 
     return total_price;
+}
+
+void cardInfo()
+{
+    string cardnumber, expirydate, cvv;
+    cout << "Enter Card Number: ";
+    cin >> cardnumber;
+    cout << "Enter Card's Expiry Date: ";
+    cin >> expirydate;
+    cout << "Enter Card's CVV: ";
+    cin >> cvv;
+    system("cls");
+}
+
+int categoryShop(string product)
+{
+    int chosen_category, sub_category, amount, _xa = 1;
+    float price;
+    vector<string> oms;
+    vector<int> omsim;
+
+    TIP();
+    cout << "Choose a " << product << " product:\n";
+    for (auto iter = products[product].begin(); iter != products[product].end(); iter++)
+    {
+        cout << _xa << ". " << iter->first << endl;
+        oms.push_back(iter->first);
+        omsim.push_back(iter->second);
+        _xa++;
+    }
+    cout << "0. Cancel\n";
+    cin >> sub_category;
+    
+    system("cls");
+    TIP();
+    cout << "Category:\t" << product << endl;
+    cout << "Product:\t" << oms[sub_category - 1] << endl;
+    cout << "Price:\t\t" << omsim[sub_category - 1] << endl;
+
+    cout << "\nHow many? (type '0' to cancel)\n";
+    cin >> amount;
+    if (amount >= 1) {
+        system("cls");
+        price = omsim[sub_category - 1];
+        mapping(product, amount, price);
+        if (amount < 1) {
+            return 0;
+        }
+        cart[oms[sub_category - 1]] = {amount, price};
+    }
+    return 0;
 }
