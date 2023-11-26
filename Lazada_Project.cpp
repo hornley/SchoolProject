@@ -31,7 +31,7 @@ int main() {
     int paymentMethod, cardMethod, cardNumber;
 
     addData();
-    system("clear");
+    system("cls");
     TIP();
     cout << "Welcome to StudEssentials!\n";
 
@@ -43,7 +43,7 @@ int main() {
         return 0;
     }
     
-    system("clear");
+    system("cls");
     TIP();
     cout << "View Cart? type 'yes', otherwise 'no'.\n";  // option 1
     cin >> view_cart;
@@ -54,7 +54,7 @@ int main() {
         cin >> checkout_option;
 
         if (checkout_option == "yes") {
-            system("clear");
+            system("cls");
             cout << "Checkout\n";
             cout << "What is your payment method?\n";
             cout << "1. Cash\n";
@@ -62,7 +62,7 @@ int main() {
             cout << "0. Cancel\n";
             cin >> paymentMethod;
             if (paymentMethod == 1) {
-                system("clear");
+                system("cls");
                 total_price *= 0.075 * total_price;
                 cout << "Total Amount to pay: " << total_price << endl;
                 cout << "Do you want to apply a discount code? (type 'yes', otherwise 'no'.)\n";
@@ -72,7 +72,7 @@ int main() {
                     total_price = discount(total_price);
                 }
                 cout << "Please input your money \n";
-                cin.clear();
+                cin.cls();
                 cin >> balance;
                 if (balance < total_price) {
                     cout << "\nInsufficient Money!\nUnable to proceed\n";
@@ -83,7 +83,7 @@ int main() {
             }
             else if (paymentMethod == 2)
             {
-                system("clear");
+                system("cls");
                 
                 cout << "Please enter your Bank card (just type random numbers)\n";
                 cin >> cardNumber;
@@ -91,7 +91,7 @@ int main() {
                 cout << "1. Cash card\n";
                 cout << "2. Savings\n";
                 cout << "0. Cancel\n";
-                cin.clear();
+                cin.cls();
                 cin >> cardMethod;
                 
                 if (cardMethod == 1)
@@ -197,7 +197,7 @@ void addData()
 float viewCart()
 {
     float totprice;
-    system("clear");
+    system("cls");
     TIP();
     cout << "                Item                 \t\tAmount\t\tPrice\t\tTotal\n";
     cout << "****************************************************************************************\n\n";
@@ -219,7 +219,7 @@ void shop()
     do {
         vector<string> oms;
         vector<int> omsim;
-        system("clear");
+        system("cls");
         TIP();
         cout << "Choose category\n";
         cout << "1. Pen\n";
@@ -231,7 +231,7 @@ void shop()
         cin >> chosen_category;
         cout << "\n****************************************************************************************\n\n";
 
-        system("clear");
+        system("cls");
         switch (chosen_category) {
             case 1:
                 product = "Pen";
@@ -248,7 +248,7 @@ void shop()
                 cout << "0. Cancel\n";
                 cin >> sub_category;
                 
-                system("clear");
+                system("cls");
                 TIP();
                 cout << "Category:\t" << product << endl;
                 cout << "Product:\t" << oms[sub_category - 1] << endl;
@@ -257,7 +257,7 @@ void shop()
                 cout << "\nHow many? (type '0' to cancel)\n";
                 cin >> amount;
                 if (amount >= 1) {
-                    system("clear");
+                    system("cls");
                     price = omsim[sub_category - 1];
                     mapping(product, amount, price);
                     if (amount < 1) {
@@ -282,7 +282,7 @@ void shop()
                 cout << "0. Cancel\n";
                 cin >> sub_category;
 
-                system("clear");
+                system("cls");
                 TIP();
                 cout << "Category:\t" << product << endl;
                 cout << "Product:\t" << oms[sub_category - 1] << endl;
@@ -291,7 +291,7 @@ void shop()
                 cout << "\nHow many? (type '0' to cancel)\n";
                 cin >> amount;
                 if (amount >= 1) {
-                    system("clear");
+                    system("cls");
                     price = omsim[sub_category - 1];
                     mapping(product, amount, price);
                     if (amount < 1) {
@@ -319,7 +319,7 @@ void shop()
                 cout << "0. Cancel\n";
                 cin >> sub_category;
 
-                system("clear");
+                system("cls");
                 TIP();
                 cout << "Category:\t" << product << endl;
                 cout << "Product:\t" << oms[sub_category - 1] << endl;
@@ -328,7 +328,7 @@ void shop()
                 cout << "\nHow many? (type '0' to cancel)\n";
                 cin >> amount;
                 if (amount >= 1) {
-                    system("clear");
+                    system("cls");
                     price = omsim[sub_category - 1];
                     mapping(product, amount, price);
                     if (amount < 1) {
@@ -354,7 +354,7 @@ void shop()
                 cout << "0. Cancel\n";
                 cin >> sub_category;
                 
-                system("clear");
+                system("cls");
                 TIP();
                 cout << "Category:\t" << product << endl;
                 cout << "Product:\t" << oms[sub_category - 1] << endl;
@@ -363,7 +363,7 @@ void shop()
                 cout << "\nHow many? (type '0' to cancel)\n";
                 cin >> amount;
                 if (amount >= 1) {
-                    system("clear");
+                    system("cls");
                     price = omsim[sub_category - 1];
                     mapping(product, amount, price);
                     if (amount < 1) {
@@ -391,7 +391,7 @@ void shop()
                 cout << "0. Cancel\n";
                 cin >> sub_category;
                 
-                system("clear");
+                system("cls");
                 TIP();
                 cout << "Category:\t" << product << endl;
                 cout << "Product:\t" << oms[sub_category - 1] << endl;
@@ -400,7 +400,7 @@ void shop()
                 cout << "\nHow many? (type '0' to cancel)\n";
                 cin >> amount;
                 if (amount >= 1) {
-                    system("clear");
+                    system("cls");
                     price = omsim[sub_category - 1];
                     mapping(product, amount, price);
                     if (amount < 1) {
@@ -412,8 +412,8 @@ void shop()
             default:
                 break;
         }
-        cin.clear();
-        system("clear");
+        cin.cls();
+        system("cls");
         TIP();
         cout << "If you wish buy more, type 'yes', otherwise 'no'.\n";
         cin >> decision;
@@ -423,7 +423,7 @@ void shop()
 float compute(float balance, float total_price)
 {
     float change;
-    system("clear");
+    system("cls");
     // cout << "Balance: " << balance << endl;
     // cout << "Total amount to pay: " << total_price << endl;
 
@@ -467,7 +467,7 @@ float discount(float total_price)
     int temp;
     do {
         temp = code_amount;
-        system("clear");
+        system("cls");
         cout << "Enter your discount/voucher code\n";
         cout << "Code " << code_amount << ": ";
         cout << "Type 'done' to finish adding discount/voucher code\n";
