@@ -447,7 +447,10 @@ float compute(float balance, float total_price)
 
 void receipt(float balance, float total_price, float change)
 {
-    cout << "Please wait for your receipt\n";
+    cout << "\nPlease wait for your receipt\n";
+    cout << "\n****************************************************************************************\n";
+    cout << "\n                         Thank you for shopping with us !                               \n";
+    cout << "\n****************************************************************************************";
     
     cout << "StudEssentials\n";
     time_t now = time(0);
