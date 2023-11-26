@@ -72,7 +72,7 @@ int main() {
                     total_price = discount(total_price);
                 }
                 cout << "Please input your money \n";
-                cin.cls();
+                cin.clear();
                 cin >> balance;
                 if (balance < total_price) {
                     cout << "\nInsufficient Money!\nUnable to proceed\n";
@@ -91,7 +91,7 @@ int main() {
                 cout << "1. Cash card\n";
                 cout << "2. Savings\n";
                 cout << "0. Cancel\n";
-                cin.cls();
+                cin.clear();
                 cin >> cardMethod;
                 
                 if (cardMethod == 1)
@@ -412,7 +412,7 @@ void shop()
             default:
                 break;
         }
-        cin.cls();
+        cin.clear();
         system("cls");
         TIP();
         cout << "If you wish buy more, type 'yes', otherwise 'no'.\n";
