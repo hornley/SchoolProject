@@ -266,12 +266,14 @@ void receipt(float balance, float total_price, float change)
     }
     cout << "Please wait for your receipt\n";
     system("cls");
+    cout <<"***************************************************\n";
     cout << "StudEssentials\n";
     time_t now = time(0);
     char* dt = ctime(&now);
     cout << "TIP Quezon City\n";
     cout << "Store Contact Number: +639123456789\n";
     cout << "Date and Time of purchase: " << dt << endl;
+    cout <<"***************************************************\n";
     cout << "Subtotal:     " << subtotal              << endl;
     cout << "VAT:          " << VAT_amount            << endl;
     cout << "New Subtotal: " << subtotal + VAT_amount << endl;
@@ -281,6 +283,9 @@ void receipt(float balance, float total_price, float change)
     cout << "Total:        " << total_price           << endl;
     cout << "Change:       " << change                << endl;
     cout << "Paid with:    " << paymentyarn           << endl;
+    cout <<"***************************************************\n";
+    cout <<"          Thank you for shopping with us!          \n";
+    cout <<"***************************************************";
 }
 
 float discount(float &total_price)
