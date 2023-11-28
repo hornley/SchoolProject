@@ -7,7 +7,14 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <ctime>
-#include <windows.h>
+#if defined(_WIN32) || defined(WIN32)
+	#define System "windows"
+	#include <windows.h>
+#elif __APPLE__
+	#define System "mac"
+#else
+	#define System ""
+#endif
 
 using namespace std;
 
@@ -19,7 +26,10 @@ map<string, vector<pair<string, float>>> products;
 map<string, pair<int, float>> cart;
 map<string, float> discounts;
 
+void clear();
 void TIP();
+void TIP_compiler();
+void TIP_windows();
 void mapping(string product, int &amount, int price);
 void addData();
 float viewCart();
@@ -35,7 +45,7 @@ int main() {
     int paymentMethod, cardMethod, cardNumber;
 
     addData();
-    system("cls");
+    clear();
     TIP();
     cout << "Welcome to StudEssentials!\n";
 
@@ -47,7 +57,7 @@ int main() {
         return 0;
     }
     
-    system("cls");
+    clear();
     TIP();
     cout << "View Cart? type 'yes', otherwise 'no'.\n";  // option 1
     cin >> view_cart;
@@ -58,7 +68,7 @@ int main() {
         cin >> checkout_option;
 
         if (checkout_option == "yes") {
-            system("cls");
+            clear();
 			TIP();
             cout << "Checkout\n";
             cout << "What is your payment method?\n";
@@ -67,7 +77,7 @@ int main() {
             cout << "0. Cancel\n";
             cin >> paymentMethod;
             if (paymentMethod == 1) {
-                system("cls");
+                clear();
 				TIP();
                 VAT_amount = 0.075 * total_price;
                 subtotal = total_price;
@@ -78,7 +88,7 @@ int main() {
                 if (discount_option == "yes")
                 {
                     discount(total_price);
-                    system("cls");
+                    clear();
 					TIP();
                     cout << "Total Amount to pay: " << total_price << endl;
                 }
@@ -94,7 +104,7 @@ int main() {
                 }
             }
             else if (paymentMethod == 2) {
-                system("cls");
+                clear();
                 cardInfo();
 
 				TIP();
@@ -104,7 +114,7 @@ int main() {
                 cout << "0. Cancel\n";
                 cin >> cardMethod;
                 
-                system("cls");
+                clear();
 				TIP();
                 VAT_amount = 0.075 * total_price;
                 subtotal = total_price;
@@ -115,7 +125,7 @@ int main() {
                 if (discount_option == "yes")
                 {
                     discount(total_price);
-                    system("cls");
+                    clear();
 					TIP();
                     cout << "Total Amount to pay: " << total_price << endl;
                 }
@@ -132,7 +142,7 @@ int main() {
             }
             else
             {
-				system("cls");
+				clear();
 				TIP();
                 cout << "Cancelling payment...\n";
             }
@@ -140,15 +150,41 @@ int main() {
     }
 }
 
+void clear()
+{
+	if (strcmp( System, "windows" ) == 0) {
+		system("cls");
+	} else if (strcmp( System, "mac" ) == 0) {
+		system("clear");
+	} else { }
+}
 
 void TIP()
 {
-    HANDLE hConsole = GetStdHandle (STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, 6); //Change color of School Name
+	if (strcmp( System, "windows" ) == 0) {
+		TIP_windows();
+	} else {
+		TIP_compiler();
+	}
+}
+
+void TIP_compiler()
+{
     cout<<"                        Technological Institute of The Philippines          \n";
-    SetConsoleTextAttribute(hConsole, 7); //Return to while color
     cout<<"                Project: StudEssentials: A Simple Purchasing or POS System                \n"; 
     cout << "\n****************************************************************************************\n";
+}
+
+void TIP_windows()
+{	
+	#if defined(_WIN32) || defined(WIN32)
+		HANDLE hConsole = GetStdHandle (STD_OUTPUT_HANDLE);
+		SetConsoleTextAttribute(hConsole, 6); //Change color of School Name
+		cout<<"                        Technological Institute of The Philippines          \n";
+		SetConsoleTextAttribute(hConsole, 7); //Return to while color
+		cout<<"                Project: StudEssentials: A Simple Purchasing or POS System                \n"; 
+		cout << "\n****************************************************************************************\n";
+	#endif
 }
 
 void mapping (string product, int &amount, float price) {
@@ -216,7 +252,7 @@ void addData()
 float viewCart()
 {
     float totprice;
-    system("cls");
+    clear();
     TIP();
     cout << "                Item                 \t\tAmount\t\tPrice\t\tTotal\n";
     cout << "****************************************************************************************\n\n";
@@ -238,7 +274,7 @@ void shop()
     do {
         vector<string> oms;
         vector<int> omsim;
-        system("cls");
+        clear();
         TIP();
         cout << "Choose category\n";
         cout << "1. Pen\n";
@@ -250,7 +286,7 @@ void shop()
         cin >> chosen_category;
         cout << "\n****************************************************************************************\n\n";
 
-        system("cls");
+        clear();
         switch (chosen_category) {
             case 1:
                 product = "Pen";
@@ -274,7 +310,7 @@ void shop()
             categoryShop(product);
         }
         cin.clear();
-        system("cls");
+        clear();
         TIP();
         cout << "If you wish buy more, type 'yes', otherwise 'no'.\n";
         cin >> decision;
@@ -289,7 +325,7 @@ void receipt(float balance, float total_price, float change)
         hi += i;
         hi += " ";
     }
-    system("cls");
+    clear();
 	TIP();
     cout <<"***************************************************\n";
     cout << "StudEssentials\n";
@@ -323,7 +359,7 @@ float discount(float &total_price)
     do {
         applied = false;
         temp = code_amount;
-        system("cls");
+        clear();
 		TIP();
         cout << "Enter your discount/voucher code\n";
         cout << "Code " << code_amount << ": ";
@@ -371,7 +407,7 @@ void cardInfo()
     cin >> expirydate;
     cout << "Enter Card's CVV: ";
     cin >> cvv;
-    system("cls");
+    clear();
 }
 
 int categoryShop(string product)
@@ -393,7 +429,7 @@ int categoryShop(string product)
     cout << "0. Cancel\n";
     cin >> sub_category;
     
-    system("cls");
+    clear();
     TIP();
     cout << "Category:\t" << product << endl;
     cout << "Product:\t" << oms[sub_category - 1] << endl;
@@ -402,7 +438,7 @@ int categoryShop(string product)
     cout << "\nHow many? (type '0' to cancel)\n";
     cin >> amount;
     if (amount >= 1) {
-        system("cls");
+        clear();
         price = omsim[sub_category - 1];
         mapping(product, amount, price);
         if (amount < 1) {
