@@ -86,10 +86,10 @@ int main() {
                 if (discount_option == "yes")
                 {
                     discount(total_price);
-                    clear();
-					TIP();
-                    cout << "Total Amount to pay: " << total_price << endl;
                 }
+				clear();
+				TIP();
+				cout << "Total Amount to pay: " << total_price << endl;
                 cout << "Please input your money \n";
                 cin.clear();
                 cin >> balance;
@@ -120,13 +120,12 @@ int main() {
                 cout << "Total Amount to pay: " << total_price << endl;
                 cout << "Do you want to apply a discount code? (type 'yes', otherwise 'no'.)\n";
                 cin >> discount_option;
-                if (discount_option == "yes")
-                {
+                if (discount_option == "yes") {
                     discount(total_price);
-                    clear();
-					TIP();
-                    cout << "Total Amount to pay: " << total_price << endl;
                 }
+				clear();
+				TIP();
+				cout << "Total Amount to pay: " << total_price << endl;
                 cout << "Please input your money\n";
                 cin.clear();
                 cin >> balance;
@@ -154,7 +153,9 @@ void clear()
 		system("cls");
 	} else if (strcmp( System, "mac" ) == 0) {
 		system("clear");
-	} else { }
+	} else { 
+		cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+	}
 }
 
 void TIP()
@@ -316,24 +317,41 @@ void receipt(float balance, float total_price, float change)
     clear();
 	TIP();
     cout <<"***************************************************\n";
+	sleep(1);
     cout << "StudEssentials\n";
     time_t now = time(0);
     char* dt = ctime(&now);
+	sleep(1);
     cout << "TIP Quezon City\n";
+	sleep(1);
     cout << "Store Contact Number: +639123456789\n";
+	sleep(1);
     cout << "Date and Time of purchase: " << dt << endl;
+	sleep(1);
     cout <<"***************************************************\n";
+	sleep(1);
     cout << "Subtotal:     " << subtotal              << endl;
+	sleep(1);
     cout << "VAT:          " << VAT_amount            << endl;
+	sleep(1);
     cout << "New Subtotal: " << subtotal + VAT_amount << endl;
+	sleep(1);
     cout << "Discount:     " << discounted_amount     << endl;
+	sleep(1);
     cout << "Codes:        " << hi                    << "\n\n";
+	sleep(1);
     cout << "Balance:      " << balance               << endl;
+	sleep(1);
     cout << "Total:        " << total_price           << endl;
+	sleep(1);
     cout << "Change:       " << change                << endl;
+	sleep(1);
     cout << "Paid with:    " << paymentyarn           << endl;
+	sleep(1);
     cout <<"***************************************************\n";
+	sleep(1);
     cout <<"          Thank you for shopping with us!          \n";
+	sleep(1);
     cout <<"***************************************************";
 }
 
