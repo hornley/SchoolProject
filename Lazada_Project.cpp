@@ -28,8 +28,6 @@ map<string, float> discounts;
 
 void clear();
 void TIP();
-void TIP_compiler();
-void TIP_windows();
 void mapping(string product, int &amount, int price);
 void addData();
 float viewCart();
@@ -162,29 +160,19 @@ void clear()
 void TIP()
 {
 	if (strcmp( System, "windows" ) == 0) {
-		TIP_windows();
+		#if defined(_WIN32) || defined(WIN32)
+			HANDLE hConsole = GetStdHandle (STD_OUTPUT_HANDLE);
+			SetConsoleTextAttribute(hConsole, 6); //Change color of School Name
+			cout<<"                        Technological Institute of The Philippines          \n";
+			SetConsoleTextAttribute(hConsole, 7); //Return to while color
+			cout<<"                Project: StudEssentials: A Simple Purchasing or POS System                \n"; 
+			cout << "\n****************************************************************************************\n";
+		#endif
 	} else {
-		TIP_compiler();
-	}
-}
-
-void TIP_compiler()
-{
-    cout<<"                        Technological Institute of The Philippines          \n";
-    cout<<"                Project: StudEssentials: A Simple Purchasing or POS System                \n"; 
-    cout << "\n****************************************************************************************\n";
-}
-
-void TIP_windows()
-{	
-	#if defined(_WIN32) || defined(WIN32)
-		HANDLE hConsole = GetStdHandle (STD_OUTPUT_HANDLE);
-		SetConsoleTextAttribute(hConsole, 6); //Change color of School Name
 		cout<<"                        Technological Institute of The Philippines          \n";
-		SetConsoleTextAttribute(hConsole, 7); //Return to while color
 		cout<<"                Project: StudEssentials: A Simple Purchasing or POS System                \n"; 
 		cout << "\n****************************************************************************************\n";
-	#endif
+	}
 }
 
 void mapping (string product, int &amount, float price) {
