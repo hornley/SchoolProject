@@ -7,16 +7,16 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <ctime>
-// #include <windows.h>
+#include <windows.h>
 
 using namespace std;
 
-int total_amount;
+float total_amount;
 string paymentyarn, Codes[3];
 float VAT_amount, discounted_amount, subtotal;
 
-map<string, vector<pair<string, int>>> products;
-map<string, pair<int, int>> cart;
+map<string, vector<pair<string, float>>> products;
+map<string, pair<int, float>> cart;
 map<string, float> discounts;
 
 void TIP();
@@ -59,6 +59,7 @@ int main() {
 
         if (checkout_option == "yes") {
             system("cls");
+			TIP();
             cout << "Checkout\n";
             cout << "What is your payment method?\n";
             cout << "1. Cash\n";
@@ -67,16 +68,18 @@ int main() {
             cin >> paymentMethod;
             if (paymentMethod == 1) {
                 system("cls");
+				TIP();
                 VAT_amount = 0.075 * total_price;
                 subtotal = total_price;
                 total_price += VAT_amount;
-                cout << "Total Amount to pay: " << total_price << endl;
+                cout << "Total Amount to pay: " << total_price << " (" << subtotal << " + " << VAT_amount << ")" << endl;
                 cout << "Do you want to apply a discount code? (type 'yes', otherwise 'no'.)\n";
                 cin >> discount_option;
                 if (discount_option == "yes")
                 {
                     discount(total_price);
                     system("cls");
+					TIP();
                     cout << "Total Amount to pay: " << total_price << endl;
                 }
                 cout << "Please input your money \n";
@@ -92,9 +95,9 @@ int main() {
             }
             else if (paymentMethod == 2) {
                 system("cls");
-                
                 cardInfo();
 
+				TIP();
                 cout << "Please select one\n";
                 cout << "1. Cash card\n";
                 cout << "2. Savings\n";
@@ -102,6 +105,7 @@ int main() {
                 cin >> cardMethod;
                 
                 system("cls");
+				TIP();
                 VAT_amount = 0.075 * total_price;
                 subtotal = total_price;
                 total_price += VAT_amount;
@@ -112,6 +116,7 @@ int main() {
                 {
                     discount(total_price);
                     system("cls");
+					TIP();
                     cout << "Total Amount to pay: " << total_price << endl;
                 }
                 cout << "Please input your money\n";
@@ -127,6 +132,8 @@ int main() {
             }
             else
             {
+				system("cls");
+				TIP();
                 cout << "Cancelling payment...\n";
             }
         }
@@ -136,15 +143,15 @@ int main() {
 
 void TIP()
 {
-    // HANDLE hConsole = GetStdHandle (STD_OUTPUT_HANDLE);
-    // SetConsoleTextAttribute(hConsole, 6); //Change color of School Name
+    HANDLE hConsole = GetStdHandle (STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, 6); //Change color of School Name
     cout<<"                        Technological Institute of The Philippines          \n";
-    // SetConsoleTextAttribute(hConsole, 7); //Return to while color
+    SetConsoleTextAttribute(hConsole, 7); //Return to while color
     cout<<"                Project: StudEssentials: A Simple Purchasing or POS System                \n"; 
     cout << "\n****************************************************************************************\n";
 }
 
-void mapping (string product, int &amount, int price) {
+void mapping (string product, int &amount, float price) {
     string add_to_cart;
     TIP();
     cout << "\nThe price for " << amount << " " << product << " is P" << price * amount << "." << endl;
@@ -164,28 +171,46 @@ void mapping (string product, int &amount, int price) {
 
 void addData()
 {                                                  
-    products["Pen"].push_back(make_pair           ("Gel Pen                            ", 21));
-    products["Pen"].push_back(make_pair           ("HBW-2000                           ", 15));
-    products["Pen"].push_back(make_pair           ("Parker                             ", 17));
-    products["Pen"].push_back(make_pair           ("Panda                              ", 13));
-    products["Pencil"].push_back(make_pair        ("Mongol                             ", 7));
-    products["Pencil"].push_back(make_pair        ("Faber-Castell                      ", 28));    
+    products["Pen"].push_back(make_pair           ("Gel Pen                            ", 9.99));
+    products["Pen"].push_back(make_pair           ("HBW-2000                           ", 14.99));
+    products["Pen"].push_back(make_pair           ("Parker                             ", 17.99));
+    products["Pen"].push_back(make_pair           ("Panda                              ", 13.25));
+    products["Pen"].push_back(make_pair           ("Pilot                              ", 14.59));
+    products["Pen"].push_back(make_pair           ("Calligraphy Pen                    ", 39.99));
+    products["Pen"].push_back(make_pair           ("Montblanc (Luxury Pen)             ", 24999.59));
+    products["Pencil"].push_back(make_pair        ("Mongol                             ", 7.99));
+    products["Pencil"].push_back(make_pair        ("Faber-Castell                      ", 27.99));    
+    products["Pencil"].push_back(make_pair        ("Carbon Pencil                      ", 24.59));
+    products["Pencil"].push_back(make_pair        ("Graphite Pencil                    ", 30));
+    products["Pencil"].push_back(make_pair        ("Berol Pencil                       ", 54.99));
     products["Paper"].push_back(make_pair         ("Yellow Pad                         ", 25));
     products["Paper"].push_back(make_pair         ("Whole                              ", 35));
-    products["Paper"].push_back(make_pair         ("1/2 Yellow Pad                     ", 20));
-    products["Paper"].push_back(make_pair         ("Index Card                         ", 10));
+    products["Paper"].push_back(make_pair         ("Yellow Pad                         ", 50));
+    products["Paper"].push_back(make_pair         ("1/2 Yellow Pad                     ", 24));
+    products["Paper"].push_back(make_pair         ("1/4 Yellow Pad                     ", 15));
+    products["Paper"].push_back(make_pair         ("Index Card                         ", 23));
+    products["Paper"].push_back(make_pair         ("Short Bondpaper                    ", 2));
+    products["Paper"].push_back(make_pair         ("Long Bondpaper                     ", 3));
     products["Notebook"].push_back(make_pair      ("Spiral Notebook                    ", 45));
     products["Notebook"].push_back(make_pair      ("Leather Notebook                   ", 60));
     products["Notebook"].push_back(make_pair      ("Math Notebook                      ", 30));
     products["Notebook"].push_back(make_pair      ("Music Notebook                     ", 32));
+    products["Notebook"].push_back(make_pair      ("Small Notebook                     ", 24.49));
     products["Book"].push_back(make_pair          ("MATLAB Book                        ", 250));
     products["Book"].push_back(make_pair          ("UTS Book                           ", 235));
-    products["Book"].push_back(make_pair          ("Number Theory Book                 ", 2480));
-    products["Book"].push_back(make_pair          (" Math in Modern World Book         ", 260));
-    products["Book"].push_back(make_pair          ("C++ Programming First Year Handbook", 272));
-    products["Book"].push_back(make_pair          ("C++ Algorithm First Year Handbook  ", 272));
+    products["Book"].push_back(make_pair          ("Number Theory Book                 ", 249.25));
+    products["Book"].push_back(make_pair          ("Math in Modern World Book          ", 289.99));
+    products["Book"].push_back(make_pair          ("C++ Programming First Year Handbook", 349.59));
+    products["Book"].push_back(make_pair          ("C++ Algorithm First Year Handbook  ", 349.59));
+    products["Book"].push_back(make_pair          ("Mastering C++ Programming Language ", 549.49));
+    products["Book"].push_back(make_pair          ("Data Science with Python           ", 459.39));
 
-    discounts.insert( {"STUDENT", 10} );
+    discounts.insert( {"STUDENT", 15} );
+    discounts.insert( {"ENDOFSY", 25} );
+    discounts.insert( {"NEWUSER", 25} );
+    discounts.insert( {"DAILY", 10} );
+    discounts.insert( {"T1WIN", 50} );
+    discounts.insert( {"ZEUSMVP", 30} );
 }
 
 float viewCart()
@@ -195,13 +220,13 @@ float viewCart()
     TIP();
     cout << "                Item                 \t\tAmount\t\tPrice\t\tTotal\n";
     cout << "****************************************************************************************\n\n";
-    map<string, pair<int, int>>::iterator iter;
+    map<string, pair<int, float>>::iterator iter;
     for (iter = cart.begin(); iter != cart.end(); iter++) {
         totprice = iter->second.first * iter->second.second;
-        cout << iter->first << "\t\t  " << iter->second.first << "\t\t  " << iter->second.second << "\t\t  " << totprice << endl;
+        cout << iter->first << "\t\t  " << iter->second.first << "\t\t" << iter->second.second << "\t\t" << totprice << endl;
     }
     cout << "\n****************************************************************************************\n";
-    cout << "\t\t\t\t\t\t\t\t  Overall amount: P" << total_amount << endl;
+    cout << "\t\t\t\t\t\t\t Overall amount: P" << total_amount << endl;
     return total_amount;
 }
 
@@ -264,8 +289,8 @@ void receipt(float balance, float total_price, float change)
         hi += i;
         hi += " ";
     }
-    cout << "Please wait for your receipt\n";
     system("cls");
+	TIP();
     cout <<"***************************************************\n";
     cout << "StudEssentials\n";
     time_t now = time(0);
@@ -290,16 +315,16 @@ void receipt(float balance, float total_price, float change)
 
 float discount(float &total_price)
 {
-    string code, add;
+    string code;
     int code_amount = 1;
     int temp;
     float discount_ammount, percentage;
     bool applied;
     do {
-        add = "";
         applied = false;
         temp = code_amount;
         system("cls");
+		TIP();
         cout << "Enter your discount/voucher code\n";
         cout << "Code " << code_amount << ": ";
         cout << "Type 'done' to finish adding discount/voucher code\n";
@@ -312,7 +337,6 @@ float discount(float &total_price)
                     if (i == code) {
                         cout << "That code is already applied!\n";
                         sleep(2);
-                        add = "yes";
                         applied = true;
                     } else {
                         percentage = 1 - (iter->second/100);
@@ -322,9 +346,7 @@ float discount(float &total_price)
                         Codes[code_amount - 1] = code;
                         code_amount++;
                         cout << "Successfully used " << code << " giving you a " << iter->second << "\% discount\n";
-                        cout << "Type 'yes' if you want to another code\n";
-                        cin.clear();
-                        cin >> add;
+						sleep(2);
                     }
                     break;
                 }
@@ -333,15 +355,15 @@ float discount(float &total_price)
         if (temp == code_amount && !applied) {
             cout << "Invalid Code!\n";
             sleep(2);
-            add = "yes";
         }
-    } while (code_amount <= 3 && add == "yes");
+    } while (code_amount <= 3);
 
     return total_price;
 }
 
 void cardInfo()
 {
+	TIP();
     string cardnumber, expirydate, cvv;
     cout << "Enter Card Number: ";
     cin >> cardnumber;
@@ -357,7 +379,7 @@ int categoryShop(string product)
     int chosen_category, sub_category, amount, _xa = 1;
     float price;
     vector<string> oms;
-    vector<int> omsim;
+    vector<float> omsim;
 
     TIP();
     cout << "Choose a " << product << " product:\n";
