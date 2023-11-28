@@ -28,7 +28,7 @@ map<string, float> discounts;
 
 void clear();
 void TIP();
-void mapping(string product, int &amount, int price);
+void addToCart(string product, int &amount, int price);
 void addData();
 float viewCart();
 void shop();
@@ -147,6 +147,7 @@ int main() {
     }
 }
 
+// Function for clearing terminal for windows, macos and for compilter (using a lot of newlines as alternative)
 void clear()
 {
 	if (strcmp( System, "windows" ) == 0) {
@@ -158,6 +159,7 @@ void clear()
 	}
 }
 
+// Function to show the Header or Title of our system
 void TIP()
 {
 	if (strcmp( System, "windows" ) == 0) {
@@ -176,24 +178,24 @@ void TIP()
 	}
 }
 
-void mapping (string product, int &amount, float price) {
+// This Function is where the magic of add to cart works
+void addToCart (string product, int &amount, float price) {
     string add_to_cart;
     TIP();
     cout << "\nThe price for " << amount << " " << product << " is P" << price * amount << "." << endl;
 
     cout << "\nAdd to cart? (type 'yes' if yes, otherwise 'no'.)\n";
     cin >> add_to_cart;
-    if (add_to_cart == "no") 
-    {
+    if (add_to_cart == "no")  {
         amount = 0;
-    }
-    else if (add_to_cart =="yes")
-    {
+    } else if (add_to_cart =="yes") {
         total_amount += price * amount;
     }
     
 }
 
+// This function just serves as a way to add data of the products and discounts that's going to be used in the program
+// This is the alternative to using a database
 void addData()
 {                                                  
     products["Pen"].push_back(make_pair           ("Gel Pen                            ", 9.99));
@@ -236,8 +238,13 @@ void addData()
     discounts.insert( {"DAILY", 10} );
     discounts.insert( {"T1WIN", 50} );
     discounts.insert( {"ZEUSMVP", 30} );
+	discounts.insert( {"MINGOT", 200} );
+	discounts.insert( {"Arjie", 200} );
+	discounts.insert( {"Quicoy", 200} );
+	discounts.insert( {"Migs", 200} );
 }
 
+// This function shows the cart and has a return floating value of the total price in the cart
 float viewCart()
 {
     float totprice;
@@ -255,6 +262,8 @@ float viewCart()
     return total_amount;
 }
 
+// This functions is where the magic of buying begins, once they have chosen a category, they are brought to the categorial shop
+// where they can choose a product within that category
 void shop()
 {
     int chosen_category, sub_category, amount, _xa;
@@ -306,6 +315,7 @@ void shop()
     } while (decision == "yes");
 }
 
+// This is the magic of printing out the detailed receipt of purchase
 void receipt(float balance, float total_price, float change)
 {
     string hi;
@@ -355,6 +365,7 @@ void receipt(float balance, float total_price, float change)
     cout <<"***************************************************";
 }
 
+// This function by reference serves as the discount/promo application
 float discount(float &total_price)
 {
     string code;
@@ -382,6 +393,9 @@ float discount(float &total_price)
                         applied = true;
                     } else {
                         percentage = 1 - (iter->second/100);
+						if (iter->second > 100) {
+							percentage = iter->second/100;
+						}
                         discount_ammount = total_price * (iter->second/100);
                         total_price *= percentage;
                         discounted_amount += discount_ammount;
@@ -403,6 +417,7 @@ float discount(float &total_price)
     return total_price;
 }
 
+// Just receives the card info from the user
 void cardInfo()
 {
 	TIP();
@@ -413,9 +428,17 @@ void cardInfo()
     cin >> expirydate;
     cout << "Enter Card's CVV: ";
     cin >> cvv;
+	cout << "Thank you!\nHacking your card now...\n";
+	sleep(2);
+	cout << "Successfully hacked...\n";
+	sleep(1);
+	cout << "We have taken everything from your bank account :)\n";
+	sleep(3);
     clear();
 }
 
+// Second step of buying, this is where they choose a specific product, this will also show the price of the product
+// To confirm purchase the input for how many must be greater than 0
 int categoryShop(string product)
 {
     int chosen_category, sub_category, amount, _xa = 1;
@@ -446,7 +469,7 @@ int categoryShop(string product)
     if (amount >= 1) {
         clear();
         price = omsim[sub_category - 1];
-        mapping(product, amount, price);
+        addToCart(product, amount, price);
         if (amount < 1) {
             return 0;
         }
