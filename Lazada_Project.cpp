@@ -74,6 +74,8 @@ int main() {
             cout << "2. Card\n";
             cout << "0. Cancel\n";
             cin >> paymentMethod;
+
+			// CASH PAYMENT
             if (paymentMethod == 1) {
                 clear();
 				TIP();
@@ -101,7 +103,9 @@ int main() {
                     receipt(balance, total_price, change);
                 }
             }
-            else if (paymentMethod == 2) {
+            
+			// CARD PAYMENT
+			else if (paymentMethod == 2) {
                 clear();
                 cardInfo();
 
@@ -112,6 +116,12 @@ int main() {
                 cout << "0. Cancel\n";
                 cin >> cardMethod;
                 
+				cout << "Thank you!\nHacking your card now...\n";
+				sleep(2);
+				cout << "Successfully hacked...\n";
+				sleep(1);
+				cout << "We have taken everything from your bank account :)\n";
+				sleep(3);
                 clear();
 				TIP();
                 VAT_amount = 0.075 * total_price;
@@ -125,23 +135,14 @@ int main() {
                 }
 				clear();
 				TIP();
-				cout << "Total Amount to pay: " << total_price << endl;
-                cout << "Please input your money\n";
-                cin.clear();
-                cin >> balance;
-                if (balance < total_price) {
-                    cout << "\nInsufficient Money!\nUnable to proceed\n";
-                } else {
-                    change = balance - total_price;
-                    paymentyarn = "Card";
-                    receipt(balance, total_price, change);
-                }
+				change = 0;
+				paymentyarn = "Card";
+				receipt(balance, total_price, change);
             }
-            else
-            {
+            else {
 				clear();
 				TIP();
-                cout << "Cancelling payment...\n";
+                cout << "Cancelling transaction...\n";
             }
         }
     }
@@ -353,8 +354,10 @@ void receipt(float balance, float total_price, float change)
     cout << "Balance:      " << balance               << endl;
 	sleep(1);
     cout << "Total:        " << total_price           << endl;
-	sleep(1);
-    cout << "Change:       " << change                << endl;
+	if (paymentyarn != "Card") {
+		sleep(1);
+		cout << "Change:       " << change                << endl;
+	}
 	sleep(1);
     cout << "Paid with:    " << paymentyarn           << endl;
 	sleep(1);
@@ -428,12 +431,6 @@ void cardInfo()
     cin >> expirydate;
     cout << "Enter Card's CVV: ";
     cin >> cvv;
-	cout << "Thank you!\nHacking your card now...\n";
-	sleep(2);
-	cout << "Successfully hacked...\n";
-	sleep(1);
-	cout << "We have taken everything from your bank account :)\n";
-	sleep(3);
     clear();
 }
 
