@@ -45,10 +45,12 @@ void convexHullBruteForce(const vector<Point>& points) {
             }
 
             cout << "Checking pair (" << points[i].x << ", " << points[i].y << ") and (" << points[j].x << ", " << points[j].y << ")\n";
-            
-          if (allOnSameSide) {
-    cout << "   Added to convex hull.\n";
-    hull.insert(points[i]);
+
+            if (allOnSameSide) {
+                cout << "   Added to convex hull.\n";
+                hull.insert(points[i]);
+                hull.insert(points[j]);
+            } else {
                 cout << "   Not added to convex hull.\n";
             }
         }
