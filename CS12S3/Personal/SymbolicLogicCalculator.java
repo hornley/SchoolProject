@@ -1,3 +1,5 @@
+package symboliclogiccalculator;
+
 import java.io.*;
 import java.util.*;
 
@@ -32,7 +34,7 @@ public class SymbolicLogicCalculator {
     }
     
     public static String removeParenthesis(String input) {
-        if (input.contains("(") && input.contains(")")) return input.substring(1, input.length()-1);
+        if (input.contains("(") && input.contains(")") && input.startsWith("(")) return input.substring(1, input.length()-1);
         return input;
     }
     
