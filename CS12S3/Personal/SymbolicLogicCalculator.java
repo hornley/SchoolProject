@@ -1,5 +1,3 @@
-package symboliclogiccalculator;
-
 import java.io.*;
 import java.util.*;
 
