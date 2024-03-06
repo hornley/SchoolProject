@@ -81,12 +81,6 @@ public class SymbolicLogicCalculator {
         }
     }
     
-    public static String removeParenthesis(String input) {
-        if (input.endsWith("))")) return input.substring(0, input.length()-1);
-        if (input.contains("(") && input.contains(")") && input.startsWith("(")) return input.substring(1, input.length()-1);
-        return input;
-    }
-    
     public static ArrayList<String> getLeftRightProposition(String input) {
         ArrayList<String> proposition = new ArrayList<>();
         
@@ -95,7 +89,7 @@ public class SymbolicLogicCalculator {
                 if (LC.equals("~")) continue;
                 if (input.substring(to, to+1).equals(LC)) {
                     proposition.add(input.substring(to-1, to));
-                    proposition.add(removeParenthesis(input.substring(to+1, input.length())));
+                    proposition.add(input.substring(to+1, input.length()));
                     proposition.add(LC);
                     break;
                 }
@@ -103,12 +97,12 @@ public class SymbolicLogicCalculator {
             if (input.contains("->") || input.contains("<->")) {
                 if (input.substring(to, to+2).equals("->")) {
                     proposition.add(input.substring(to-1, to));
-                    proposition.add(removeParenthesis(input.substring(to+2, input.length())));
+                    proposition.add(input.substring(to+2, input.length()));
                     proposition.add("->");
                 }
                 if (input.substring(to, to+3).equals("<->")) {
                     proposition.add(input.substring(to-1, to));
-                    proposition.add(removeParenthesis(input.substring(to+3, input.length())));
+                    proposition.add(input.substring(to+3, input.length()));
                     proposition.add("<->");
                 }
             }
@@ -151,6 +145,7 @@ public class SymbolicLogicCalculator {
             rightProposition = CompoundPropositionRight;
             logicalConnective = CompoundPropositionLC;
         }
+        
         
         if (proposition.startsWith("~") && proposition.length() == 2) {
             propositions.put(proposition, negation(propositions.get(proposition.substring(1))));
