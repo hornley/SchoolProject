@@ -1,6 +1,6 @@
 # School Related Projects
 
-## Symbolic Logic Calculator
+## Symbolic Logic Calculator (GUI - JOptionPane) [download](https://github.com/hornley/SchoolProject/releases/download/SymbolicLogicCalculator/SLC.exe)
 - Takes propositions as input and generates a truth table.
 
 # Socials
